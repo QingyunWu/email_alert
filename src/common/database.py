@@ -1,10 +1,11 @@
 import pymongo
-
+import os
 __author__ = 'Qingyun Wu'
 
 
 class Database(object):
-    URI = "mongodb://127.0.0.1:27017"
+    # use environment variables in heroku to hide username and pw
+    URI = os.environ.get("MONGOLAB_URI")
     DATABASE = None
 
     @staticmethod
