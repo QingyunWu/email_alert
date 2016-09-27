@@ -5,14 +5,14 @@ __author__ = 'Qingyun Wu'
 
 class Database(object):
     # use environment variables in heroku to hide username and pw
-    URI = os.environ.get("MONGOLAB_URI")
+    URI = "mongodb://qingyun:wqy123@ds041516.mlab.com:41516/heroku_bx7dqg84"
 
     DATABASE = None
 
     @staticmethod
     def initialize():
         client = pymongo.MongoClient(Database.URI)
-        Database.DATABASE = client.get_default_database()
+        Database.DATABASE = client['heroku_bx7dqg84']
 
     @staticmethod
     def insert(collection, data):
