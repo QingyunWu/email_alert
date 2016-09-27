@@ -5,7 +5,7 @@ __author__ = 'Qingyun Wu'
 
 class Database(object):
     # use environment variables in heroku to hide username and pw
-    URI =  "mongodb://qingyun:Wqywhdx2011@@ds041516.mlab.com:41516/heroku_bx7dqg84"
+    URI = os.environ.get("MONGOLAB_URI")
 
     DATABASE = None
 
