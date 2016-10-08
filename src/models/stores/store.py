@@ -2,6 +2,7 @@ import uuid
 from src.common.database import Database
 import src.models.stores.constants as StoreConstants
 import src.models.stores.errors as StoreErrors
+from urlparse import urlparse
 
 __author__ = 'Qingyun Wu'
 
@@ -55,14 +56,10 @@ class Store(object):
 		:param url: The item's URL
 		:return: a Store, or raises a StoreNotFoundException if no store matches the URL
 		"""
-		li = range(0, len(url)+1)
-		rev_li = li[::-1]
-
-
-		for i in rev_li:
-			store = cls.get_by_url_prefix(url[:i])
-			if store is not None:
-				return store
-			else:
-				continue
-		raise StoreErrors.StoreNotFoundException("No store found for the url you provided!")
+		str = urlparse(url)
+		domain_url = str.netloc
+		try:
+			store = cls.get_by_url_prefix(domain_url)
+			return store
+		except:
+			raise StoreErrors.StoreNotFoundException("The item url didn't match any store!")
