@@ -2,7 +2,6 @@ from flask import Blueprint, request, session, url_for, render_template
 from werkzeug.utils import redirect
 from src.models.users.user import User
 import src.models.users.errors as UserErrors
-import src.models.users.decorators as user_decorators
 
 __author__ = 'Qingyun Wu'
 
