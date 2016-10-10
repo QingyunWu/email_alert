@@ -42,7 +42,6 @@ def register_user():
 
 
 @user_blueprint.route('/alerts')
-@user_decorators.requires_login
 def user_alerts():
     user = User.find_by_email(session['email'])
     return render_template("users/alerts.jinja2", alerts=user.get_alerts())
@@ -55,6 +54,5 @@ def logout_user():
 
 
 @user_blueprint.route('/check_alerts/<string:user_id>')
-@user_decorators.requires_login
 def check_user_alerts(user_id):
     pass
