@@ -6,7 +6,7 @@
         </h1>
     </div>
     <p>Last price found <strong>${{ alert.item.price }}</strong></p>
-    <p>Last checked on <strong>{{ alert.last_checked.strftime("%d-%m-%Y %H:%M") }}</strong></p>
+    <p>Last checked on <strong>{{ alert.last_checked.strftime("%m-%d-%Y %H:%M") }}</strong></p>
     <div class="panel panel-default">
         <div class="panel-body">
             <a class="btn btn-default" href="{{ alert.item.url }}" role="button">Visit Site</a>
