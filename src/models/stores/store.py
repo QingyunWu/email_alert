@@ -1,6 +1,5 @@
 import uuid
 from src.common.database import Database
-import src.models.stores.constants as StoreConstants
 import src.models.stores.errors as StoreErrors
 from urlparse import urlparse
 
@@ -28,27 +27,28 @@ class Store(object):
 		}
 
 	def delete(self):
-		Database.remove(StoreConstants.COLLECTION, {'_id': self._id})
+		Database.remove("stores", {'_id': self._id})
 
 	@classmethod
 	def all(cls):
-		return [cls(**elem) for elem in Database.find(StoreConstants.COLLECTION, {})]
+		return [cls(**elem) for elem in Database.find("stores", {})]
 
 	@classmethod
 	def get_by_id(cls, id):
-		return cls(**Database.find_one(StoreConstants.COLLECTION, {"_id": id}))
+		return cls(**Database.find_one("stores", {"_id": id}))
 
 	def save_to_mongo(self):
-		Database.update(StoreConstants.COLLECTION, {'_id': self._id}, self.json())
+		Database.update("stores", {'_id': self._id}, self.json())
 
 	@classmethod
 	def get_by_name(cls, store_name):
-		return cls(**Database.find_one(StoreConstants.COLLECTION, {"name": store_name}))
+		return cls(**Database.find_one("stores", {"name": store_name}))
 
 	@classmethod
 	def get_by_url_prefix(cls, url_prefix):
-		return cls(**Database.find_one(StoreConstants.COLLECTION, {"url_prefix": {"$regex": '^{}'.format(url_prefix)}}))
+		return cls(**Database.find_one("stores", {"url_prefix": {"$regex": '^{}'.format(url_prefix)}}))
 
+	# employ urlparse to get the domain url of the item, parse it to the func get_by_url_prefix
 	@classmethod
 	def find_by_url(cls, url):
 		"""

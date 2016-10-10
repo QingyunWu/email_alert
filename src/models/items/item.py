@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import requests
 import re
 from src.common.database import Database
-import src.models.items.constants as ItemConstants
 from src.models.stores.store import Store
 
 __author__ = 'Qingyun Wu'
@@ -36,7 +35,7 @@ class Item(object):
         return self.price
 
     def save_to_mongo(self):
-        Database.update(ItemConstants.COLLECTION, {'_id': self._id}, self.json())
+        Database.update("items", {'_id': self._id}, self.json())
 
     def json(self):
         return {
@@ -48,4 +47,4 @@ class Item(object):
 
     @classmethod
     def get_by_id(cls, item_id):
-        return cls(**Database.find_one(ItemConstants.COLLECTION, {"_id": item_id}))
+        return cls(**Database.find_one("items", {"_id": item_id}))
