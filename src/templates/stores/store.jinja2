@@ -5,7 +5,7 @@
             <small>{{ store.name }}</small>
         </h1>
     </div>
-    <p>All URLs in this store should start with <strong>{{ store.url_prefix }}</strong></p>
+    <p>All URLs in this store should start with <strong>http://{{ store.url_prefix }}</strong></p>
     {% if session['email'] in config.ADMINS %}
         <div class="panel panel-default">
             <div class="panel-body">

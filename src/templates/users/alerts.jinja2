@@ -2,7 +2,7 @@
 {% block content %}
     <div class="page-header">
         <h1>Alerts
-            <small>showing already existing alerts</small>
+            <small> already existing alerts</small>
         </h1>
     </div>
     <div class="list-group">
@@ -14,7 +14,7 @@
                     Alert for {{ alert.item.name }}
                 </h4>
                 <p class="list-group-item-text">Last price found <strong>${{ alert.item.price }}</strong><br/>Last
-                    checked on <strong>{{ alert.last_checked.strftime("%m-%d-%Y %H:%M") }}</strong></p>
+                    checked time: <strong>{{ alert.last_checked.strftime("%m-%d-%Y %H:%M") }}</strong></p>
             </a>
         {% endfor %}
     </div>
