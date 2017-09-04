@@ -17,6 +17,7 @@ class Alert(object):
         self.last_checked = datetime.datetime.utcnow() if last_checked is None else last_checked
         self._id = uuid.uuid4().hex if _id is None else _id
 
+    # toString
     def __repr__(self):
         return "<Alert for {} on item {} with price {}>".format(self.user_email, self.item.name, self.price_limit)
 

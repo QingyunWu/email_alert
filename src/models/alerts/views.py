@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template, session, redirect, url_for
+from flask import make_response
 
 from src.models.alerts.alert import Alert
 from src.models.items.item import Item
@@ -66,4 +67,5 @@ def check_alert_price(alert_id):
 	# send emails if there is a price match
 	Alert.find_by_id(alert_id).load_item_price()
 	Alert.find_by_id(alert_id).send_email_if_price_reached()
-	return redirect(url_for('.get_alert_page', alert_id=alert_id))
+	# return redirect(url_for('.get_alert_page', alert_id=alert_id))
+	return make_response(get_alert_page(alert_id=alert_id))
