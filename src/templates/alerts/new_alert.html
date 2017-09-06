@@ -1,4 +1,4 @@
-{% extends "base.jinja2" %}
+{% extends "base.html" %}
 {% block content %}
     <div class="page-header">
         <h1>Create Alert</h1>
@@ -14,12 +14,12 @@
                 <input type="text" class="form-control" id="url" name="url" placeholder="http://...">
             </div>
             <div class="form-group">
-                <label for="price_limit">Alert limit</label>
-                <input type="text" class="form-control" id="price_limit" name="price_limit" placeholder="100.0"
+                <label for="price_limit">Price limit</label>
+                <input type="text" class="form-control" id="price_limit" name="price_limit" placeholder="Enter the price you want"
                        aria-describedby="priceLimitBlock">
                 <span id="priceLimitBlock" class="help-block">We'll send you an e-mail when the price reaches or goes under this.</span>
             </div>
-            <button type="submit" class="btn btn-default">Create</button>
+            <button type="submit" class="btn btn-default" href="{{ url_for('users.user_alerts')  }}">Create</button>
         </form>
     </div>
 {% endblock %}

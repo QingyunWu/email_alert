@@ -9,7 +9,7 @@ class Utils(object):
     @staticmethod
     def email_is_valid(email):
         email_address_matcher = re.compile('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$')
-        return True if email_address_matcher.match(email) else False
+        return email_address_matcher.match(email)
 
     @staticmethod
     def hash_password(password):

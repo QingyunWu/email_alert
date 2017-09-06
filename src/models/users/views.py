@@ -6,6 +6,7 @@ import src.models.users.errors as UserErrors
 __author__ = 'Qingyun Wu'
 
 
+# 'users' is the name of blueprint, used in Jinja2
 user_blueprint = Blueprint('users', __name__)
 
 
@@ -22,7 +23,7 @@ def login_user():
         except UserErrors.UserError as e:
             return e.message
 
-    return render_template("users/login.jinja2")  # Send the user an error if their login was invalid
+    return render_template("users/login.html")
 
 
 @user_blueprint.route('/register', methods=['GET', 'POST'])
@@ -32,19 +33,20 @@ def register_user():
         password = request.form['password']
 
         try:
+            # return true
             if User.register_user(email, password):
                 session['email'] = email
                 return redirect(url_for(".user_alerts"))
         except UserErrors.UserError as e:
             return e.message
 
-    return render_template("users/register.jinja2")  # Send the user an error if their login was invalid
+    return render_template("users/register.html")  # Send the user an error if their login was invalid
 
 
 @user_blueprint.route('/alerts')
 def user_alerts():
     user = User.find_by_email(session['email'])
-    return render_template("users/alerts.jinja2", alerts=user.get_alerts())
+    return render_template("users/alerts.html", alerts=user.get_alerts())
 
 
 @user_blueprint.route('/logout')

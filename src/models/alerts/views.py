@@ -15,15 +15,15 @@ def create_alert():
 		name = request.form['name']
 		url = request.form['url']
 		price_limit = float(request.form['price_limit'])
-
+		#create the item before creating the alert
 		item = Item(name, url)
 		item.save_to_mongo()
-
+		# session['email'] to get the user's email
 		alert = Alert(session['email'], price_limit, item._id)
 		alert.load_item_price()  # This already saves to MongoDB
 
 	# What happens if it's a GET request
-	return render_template("alerts/new_alert.jinja2")  # Send the user an error if their login was invalid
+	return render_template("alerts/new_alert.html")  # Send the user an error if their login was invalid
 
 
 @alert_blueprint.route('/edit/<string:alert_id>', methods=['GET', 'POST'])
@@ -36,7 +36,7 @@ def edit_alert(alert_id):
 		alert.load_item_price()  # This already saves to MongoDB
 
 	# What happens if it's a GET request
-	return render_template("alerts/edit_alert.jinja2", alert=Alert.find_by_id(alert_id))  # Send the user an error if their login was invalid
+	return render_template("alerts/edit_alert.html", alert=Alert.find_by_id(alert_id))  # Send the user an error if their login was invalid
 
 
 @alert_blueprint.route('/deactivate/<string:alert_id>')
@@ -59,7 +59,7 @@ def delete_alert(alert_id):
 
 @alert_blueprint.route('/<string:alert_id>')
 def get_alert_page(alert_id):
-	return render_template('alerts/alert.jinja2', alert=Alert.find_by_id(alert_id))
+	return render_template('alerts/alert.html', alert=Alert.find_by_id(alert_id))
 
 
 @alert_blueprint.route('/check_price/<string:alert_id>')

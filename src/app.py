@@ -16,7 +16,7 @@ def init_db():
 
 @app.route('/')
 def home():
-    return render_template('home.jinja2')
+    return render_template('home.html')
 
 from src.models.users.views import user_blueprint
 from src.models.stores.views import store_blueprint

@@ -21,17 +21,7 @@ class Alert(object):
     def __repr__(self):
         return "<Alert for {} on item {} with price {}>".format(self.user_email, self.item.name, self.price_limit)
 
-    def send(self):
-        return requests.post(
-            AlertConstants.URL,
-            auth=("api", AlertConstants.API_KEY),
-            data={
-                "from": AlertConstants.FROM,
-                "to": self.user_email,
-                "subject": "Price limit reached for {}".format(self.item.name),
-                "text": "Hello! {}. We've found a deal for you! ({}).".format(self.user_email, self.item.url)
-            }
-        )
+
 
     @classmethod
     def find_needing_update(cls, minutes_since_update=AlertConstants.ALERT_TIMEOUT):
@@ -63,8 +53,20 @@ class Alert(object):
         return self.item.price
 
     def send_email_if_price_reached(self):
-        if self.item.price < self.price_limit:
+        if self.item.price <= self.price_limit:
             self.send()
+
+    def send(self):
+        return requests.post(
+            AlertConstants.URL,
+            auth=("api", AlertConstants.API_KEY),
+            data={
+                "from": AlertConstants.FROM,
+                "to": self.user_email,
+                "subject": "Price limit reached for {}".format(self.item.name),
+                "text": "Hello! {}. We've found a deal for you! ({}).".format(self.user_email, self.item.url)
+            }
+        )
 
     @classmethod
     def find_by_user_email(cls, user_email):

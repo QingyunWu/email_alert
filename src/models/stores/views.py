@@ -11,9 +11,9 @@ store_blueprint = Blueprint('stores', __name__)
 
 
 @store_blueprint.route('/')
-def index():
-    stores = Store.all()
-    return render_template('stores/store_index.jinja2', stores=stores)
+def stores_index():
+    stores = Store.get_all_stores()
+    return render_template('stores/store_index.html', stores=stores)
 
 
 @store_blueprint.route('/new', methods=['GET', 'POST'])
@@ -27,7 +27,7 @@ def create_store():
         Store(name, url_prefix, tag_name, query).save_to_mongo()
 
     # What happens if it's a GET request
-    return render_template("stores/new_store.jinja2")
+    return render_template("stores/new_store.html")
 
 
 @store_blueprint.route('/edit/<string:store_id>', methods=['GET', 'POST'])
@@ -47,18 +47,19 @@ def edit_store(store_id):
 
         store.save_to_mongo()
 
-        return redirect(url_for('.index'))
+        return redirect(url_for('.stores_index'))
 
     # What happens if it's a GET request
-    return render_template("stores/edit_store.jinja2", store=Store.get_by_id(store_id))
+    return render_template("stores/edit_store.html", store=Store.get_by_id(store_id))
 
 
 @store_blueprint.route('/delete/<string:store_id>')
 def delete_store(store_id):
     Store.get_by_id(store_id).delete()
+    return redirect(url_for('.stores_index'))
 
 
 @store_blueprint.route('/<string:store_id>')
 def store_page(store_id):
-    return render_template('stores/store.jinja2', store=Store.get_by_id(store_id))
+    return render_template('stores/store.html', store=Store.get_by_id(store_id))
 

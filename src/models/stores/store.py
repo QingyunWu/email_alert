@@ -30,7 +30,7 @@ class Store(object):
 		Database.remove("stores", {'_id': self._id})
 
 	@classmethod
-	def all(cls):
+	def get_all_stores(cls):
 		return [cls(**elem) for elem in Database.find("stores", {})]
 
 	@classmethod
@@ -44,22 +44,20 @@ class Store(object):
 	def get_by_name(cls, store_name):
 		return cls(**Database.find_one("stores", {"name": store_name}))
 
+
+	# from a www.amazon.com domain url to get a store
 	@classmethod
-	def get_by_url_prefix(cls, url_prefix):
+	def get_store_by_domain_name(cls, url_prefix):
 		return cls(**Database.find_one("stores", {"url_prefix": {"$regex": '^{}'.format(url_prefix)}}))
 
 	# employ urlparse to get the domain url of the item, parse it to the func get_by_url_prefix
 	@classmethod
-	def find_by_url(cls, url):
-		"""
-		Return a store from a url like "http://www.johnlewis.com/item/sdfj4h5g4g21k.html"
-		:param url: The item's URL
-		:return: a Store, or raises a StoreNotFoundException if no store matches the URL
-		"""
+	def get_store_by_long_url(cls, url):
 		str = urlparse(url)
+		# get the www.amazon.com
 		domain_url = str.netloc
 		try:
-			store = cls.get_by_url_prefix(domain_url)
+			store = cls.get_store_by_domain_name(domain_url)
 			return store
 		except:
 			raise StoreErrors.StoreNotFoundException("The item url didn't match any store!")

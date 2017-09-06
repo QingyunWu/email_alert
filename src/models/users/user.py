@@ -43,17 +43,17 @@ class User(object):
     def register_user(email, password):
         """
         This method registers a user using e-mail and password.
-        The password already comes hashed as sha-512.
         :param email: user's e-mail (might be invalid)
         :param password: sha512-hashed password
         :return: True if registered successfully, or False otherwise (exceptions can also be raised)
         """
+
         user_data = Database.find_one("users", {"email": email})
 
         if user_data is not None:
-            raise UserErrors.UserAlreadyRegisteredError("The e-mail you used to register already exists.")
+            raise UserErrors.UserAlreadyRegisteredError("The email you used to register already exists.")
         if not Utils.email_is_valid(email):
-            raise UserErrors.InvalidEmailError("The e-mail does not have the right format.")
+            raise UserErrors.InvalidEmailError("The email does not have the right format.")
 
         User(email, Utils.hash_password(password)).save_to_db()
 
